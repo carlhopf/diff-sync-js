@@ -82,7 +82,10 @@ class FakeDiffSyncEnv {
                     },
 
                     onUpdateMain: (patches, operations) => {
+
+
                         this.mainText = diffSync.strPatch(this.mainText, operations);
+
                     },
 
                     afterUpdate: () => {
@@ -214,7 +217,7 @@ describe("Symmetric differential synchronization test by simulate one server and
 
         expect(server.mainText).toBe(""); //server did not receive client_a patch
 
-        expect(client_a.mainText).toBe("AxA");
+        expect(client_b.mainText).toBe("CxC");
 
         server.shouldReceive = true;
 
@@ -222,11 +225,11 @@ describe("Symmetric differential synchronization test by simulate one server and
 
         client_a.update("AxABxB");
 
-        expect(client_b.mainText).toBe("AxABxBCxC");
+        expect(client_b.mainText).toBe("CxCAxABxB");
 
-        expect(server.mainText).toBe("AxABxBCxC");
+        expect(server.mainText).toBe("CxCAxABxB");
 
-        expect(client_a.mainText).toBe("AxABxBCxC");
+        expect(client_a.mainText).toBe("CxCAxABxB");
 
         expect(server.patchCount).toBe(2);
 
